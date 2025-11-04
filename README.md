@@ -51,7 +51,7 @@ pip install pymupdf
 3. **Download the script**:
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/pdf_to_md.git
+git clone https://github.com/M1ck4/pdf_to_md.git
 cd pdf_to_md
 
 # Or download pdf_to_md.py directly
@@ -116,20 +116,6 @@ This is a paragraph that wraps across multiple lines in the PDF file.
 - **Obsidian vaults** - Import PDFs directly into your knowledge base
 - **Markdown workflows** - Use with any Markdown editor (Typora, VS Code, etc.)
 
-## 🔧 Advanced: Creating a Windows Executable
-
-Want to share this with non-technical users? Create a standalone `.exe`:
-
-```bash
-# Install PyInstaller
-pip install pyinstaller
-
-# Create the executable
-pyinstaller --noconsole --onefile --name "PDF_to_Markdown" pdf_to_md_v2.py
-
-# The .exe will be in the dist/ folder
-```
-
 ## ⚠️ Limitations
 
 - **Scanned PDFs** - Requires text-based PDFs (not scanned images). For OCR, use Adobe Acrobat or other tools first.
@@ -149,10 +135,10 @@ Contributions are welcome! Here are some ways you can help:
 ### Development Setup
 
 ```bash
-git clone https://github.com/yourusername/pdf-to-markdown.git
-cd pdf-to-markdown
+git clone https://github.com/M1ck4/pdf_to_md.git
+cd pdf_to_md
 pip install pymupdf
-python pdf_to_md_v2.py
+python pdf_to_md.py
 ```
 
 ## 📝 License
@@ -167,8 +153,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/pdf-to-markdown/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/pdf-to-markdown/discussions)
+- **Issues**: [GitHub Issues](https://github.com/M1ck4/pdf_to_md/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/M1ck4/pdf_to_md/discussions)
 
 ## ⭐ Star History
 
