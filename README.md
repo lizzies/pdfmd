@@ -62,11 +62,6 @@ cd pdf_to_md
 python pdf_to_md.py
 ```
 
-### Option 2: Windows Executable (No Python Required)
-
-1. Download the latest `.exe` from [Releases](https://github.com/yourusername/pdf-to-markdown/releases)
-2. Double-click to run - no installation needed!
-
 ## 🚀 Usage
 
 ### Quick Start
