@@ -216,6 +216,8 @@ git clone https://github.com/M1ck4/pdf_to_md.git
 cd pdf_to_md
 pip install -r requirements.txt
 python app_gui.py
+pip install -r requirements.txt
+python pdf_to_md.py
 ```
 
 ---
@@ -226,6 +228,8 @@ Licensed under the MIT License.
 See [LICENSE](LICENSE).
 
 ---
+## License
+Released under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## 🙏 Acknowledgments
 
@@ -240,3 +244,6 @@ See [LICENSE](LICENSE).
 ## ❤️ Made for creators, researchers, and readers.
 
 **Free. Open. Useful. Private. Forever.**
+## Acknowledgements
+- Built on top of [PyMuPDF](https://pymupdf.readthedocs.io/).
+- Designed for seamless import into [Obsidian](https://obsidian.md/) vaults and other Markdown-first workflows.
