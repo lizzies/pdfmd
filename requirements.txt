@@ -1,12 +1,17 @@
-# Core dependencies (always required)
+# Full installation with OCR support
+
+# Core PDF processing
 pymupdf>=1.23.0
 
-# Optional: OCR support
-# Uncomment the lines below if you need OCR functionality
-# pytesseract>=0.3.10
-# Pillow>=10.0.0
+# OCR dependencies
+pytesseract>=0.3.10
+Pillow>=10.0.0
 
-# Note: Tesseract OCR engine must be installed separately
-# Windows: https://github.com/UB-Mannheim/tesseract/wiki
-# macOS: brew install tesseract
-# Linux: sudo apt-get install tesseract-ocr
+# Development dependencies (optional)
+# pytest>=7.4.0
+# black>=23.0.0
+# flake8>=6.0.0
+
+# Note: External binaries must be installed separately:
+# - Tesseract OCR: https://github.com/tesseract-ocr/tesseract
+# - OCRmyPDF (optional): https://github.com/ocrmypdf/OCRmyPDF
