@@ -1,52 +1,59 @@
 # PDF to Markdown Converter (Obsidian-Ready)
 
-A powerful, single-file GUI application that converts PDFs to clean, well-formatted Markdown optimized for Obsidian and other note-taking apps.
+A powerful, cross-platform application that converts PDFs — including scanned ones — into clean, well-formatted Markdown optimized for **Obsidian** and other note-taking tools.
 
-![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)
+![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
-![Version](https://img.shields.io/badge/version-v1.0.0-blue)
+![Version](https://img.shields.io/badge/version-v2.0.0-blue)
 [![Download EXE](https://img.shields.io/badge/Download-Windows%20EXE-brightgreen)](https://github.com/M1ck4/pdf_to_md/releases/latest/download/PDF_to_MD.exe)
 
 ## 📸 Screenshot
 
-![PDF to Markdown Converter Interface](doc/Screenshot%202025-11-04%20140238.png)
+![PDF to Markdown Converter Interface](doc/Screenshot 2025-11-11 173246.png)
+
+---
 
 ## ✨ Features
 
-### Smart Text Processing
+### 🧠 Smart Text Processing
 
-* **Intelligent heading detection** — Identifies headings by font size and ALL-CAPS/MOSTLY-CAPS patterns.
-* **Paragraph reconstruction** — Merges wrapped lines and fixes hyphenation (e.g., "trans-\nform" → "transform").
-* **Orphan fragment merging** — Combines short isolated lines into previous paragraphs for better flow.
-* **Drop cap handling** — Ignores oversized decorative first letters.
+* **Intelligent heading detection** — Uses font size, ALL-CAPS, and pattern recognition to find headings.
+* **Paragraph reconstruction** — Merges wrapped lines and fixes hyphenation (e.g., `trans-\nform` → `transform`).
+* **Orphan merging** — Joins short stray lines into previous paragraphs.
+* **Drop cap handling** — Ignores oversized decorative initials.
 
-### Formatting Preservation
+### 🎨 Formatting Preservation
 
-* **Bold** and *italic* text when available in the PDF.
-* Bullet lists (•, ◦, ·, -, —).
-* Numbered lists (1. 2. 3.).
+* **Bold** and *italic* text from source PDF.
+* Bullet lists (•, ◦, ·, -, —) and numbered lists (1. 2. 3.).
 * Lettered outlines (a) b) c)).
+* URLs auto-linkified and punctuation normalized.
 
-### Automatic Cleanup
+### 🧼 Automatic Cleanup
 
-* **Header/footer removal** — Auto-detects and strips repeating headers/footers across pages.
-* **URL linkification** — Converts plain URLs to clickable Markdown links.
-* **Punctuation normalization** — Fixes smart quotes, ellipses, and em-dashes.
+* **Header/footer detection** — Removes repeating headers and footers.
+* **Punctuation normalization** — Fixes smart quotes, ellipses, and em dashes.
+* **Whitespace cleanup** — Ensures neat formatting.
 
-### Image Support
+### 🧩 OCR Integration (Tesseract & OCRmyPDF)
 
-* **Export images** to an `_assets/` folder with relative Markdown links.
-* Automatic conversion to PNG format.
-* Per-page image organization.
+* Converts **scanned PDFs** into searchable Markdown.
+* Supports **auto**, **tesseract**, and **ocrmypdf** modes.
+* Automatically detects when OCR is needed.
 
-### Quality of Life
+| Mode        | Description                               |
+| ----------- | ----------------------------------------- |
+| `off`       | Fastest mode for text-based PDFs.         |
+| `auto`      | Detects if OCR is required automatically. |
+| `tesseract` | Uses local Tesseract OCR for conversion.  |
+| `ocrmypdf`  | Uses OCRmyPDF for complete document OCR.  |
 
-* **Preview mode** — Test settings on first 3 pages before converting large PDFs.
-* **Per-page error recovery** — Continues conversion even if individual pages fail.
-* **Persistent settings** — Remembers your last-used paths and options.
-* **Progress tracking** — Real-time progress bar showing page-by-page conversion.
-* **Configurable options** — Fine-tune heading detection, orphan merging, and more.
+> 💡 **Windows users:** If Tesseract is not on PATH, set it manually:
+>
+> ```python
+> opts = Options(tesseract_cmd=r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe")
+> ```
 
 ---
 
@@ -54,60 +61,116 @@ A powerful, single-file GUI application that converts PDFs to clean, well-format
 
 ### Option 1: Python (All Platforms)
 
-1. **Install Python 3.7+** if you don't have it already.
-2. **Install PyMuPDF**:
+1. **Install Python 3.8+**
+2. **Install dependencies:**
 
-```bash
-pip install pymupdf
-```
+   ```bash
+   pip install pymupdf pillow pytesseract
+   ```
+3. *(Optional)* for OCRmyPDF support:
 
-3. **Download the script**:
+   ```bash
+   pip install ocrmypdf
+   ```
+4. **Clone the repository:**
 
-```bash
-# Clone the repository
-git clone https://github.com/M1ck4/pdf_to_md.git
-cd pdf_to_md
+   ```bash
+   git clone https://github.com/M1ck4/pdf_to_md.git
+   cd pdf_to_md
+   ```
+5. **Run the GUI app:**
 
-# Or download pdf_to_md.py directly
-```
+   ```bash
+   python -m pdfmd.app_gui
+   ```
 
-4. **Run the application**:
-
-```bash
-python pdf_to_md.py
-```
-
-### Option 2: Windows Executable (No Python Required)
+### Option 2: Windows Executable (No Python Needed)
 
 1. Download the latest `.exe` from the [Releases page](https://github.com/M1ck4/pdf_to_md/releases/latest).
-2. Run the app directly — no installation or Python environment needed.
+2. Run it directly — no installation required.
+
+---
+
+## 📘 OCR Requirements
+
+OCR is **optional**, but required if you want to extract text from **scanned PDFs**.
+
+### 🔹 Tesseract OCR (for `tesseract` or `auto` mode)
+
+**Required:** Only if you want OCR for scanned documents.
+
+#### 🪟 Windows
+
+1. Download the Windows installer from: [Tesseract at UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki)
+2. Install to the default path (e.g. `C:\Program Files\Tesseract-OCR\`)
+3. Ensure it’s added to PATH, or specify it manually:
+
+   ```python
+   opts = Options(tesseract_cmd=r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe")
+   ```
+
+#### 🍎 macOS
+
+```bash
+brew install tesseract
+```
+
+#### 🐧 Linux (Debian/Ubuntu)
+
+```bash
+sudo apt install tesseract-ocr -y
+```
+
+> 💬 You can test your installation by running `tesseract --version` in the terminal.
+
+### 🔹 OCRmyPDF (for `ocrmypdf` mode)
+
+**Optional**, but useful for full-document OCR including images, layout, and metadata.
+
+Install via pip:
+
+```bash
+pip install ocrmypdf
+```
+
+Or system package manager:
+
+```bash
+sudo apt install ocrmypdf -y
+```
 
 ---
 
 ## 🚀 Usage
 
-### Quick Start
+### 🖥️ GUI Mode
 
-1. **Launch the application**.
-2. **Browse** for your input PDF file.
-3. **Choose** where to save the output `.md` file.
-4. **Configure options** (or use the smart defaults).
-5. **Click Convert**.
+1. **Launch the app** (`python -m pdfmd.app_gui` or `PDF_to_MD.exe`).
+2. **Select input PDF** and **choose output Markdown file**.
+3. Configure options (OCR mode, preview, export images, etc.).
+4. **Click Convert**.
 
-### Options Explained
+### 🧰 CLI Mode
 
-| Option                                 | Description                                             | Default    |
-| -------------------------------------- | ------------------------------------------------------- | ---------- |
-| **Promote ALL-CAPS lines to headings** | Treats lines in all capitals as section headings        | ✓ Enabled  |
-| **Merge short orphan fragments**       | Combines isolated short lines into previous paragraphs  | ✓ Enabled  |
-| **Insert page breaks (---)**           | Adds horizontal rules between pages                     | ✗ Disabled |
-| **Remove repeating header/footer**     | Auto-detects and removes common headers/footers         | ✓ Enabled  |
-| **Export images to _assets/**          | Extracts images and creates Markdown links              | ✗ Disabled |
-| **Preview first 3 pages only**         | Test settings on large PDFs without full conversion     | ✗ Disabled |
-| **Heading size ratio**                 | Font size multiplier for heading detection (e.g., 1.15) | 1.15       |
-| **Orphan max length**                  | Maximum characters for orphan fragment merging          | 45         |
+Run from terminal:
 
-### Example Output
+```bash
+python -m pdfmd.cli input.pdf --ocr auto --export-images
+```
+
+| Option                      | Description                           |           |            |          |
+| --------------------------- | ------------------------------------- | --------- | ---------- | -------- |
+| `--ocr [off                 | auto                                  | tesseract | ocrmypdf]` | OCR mode |
+| `--preview`                 | Converts first 3 pages only           |           |            |          |
+| `--export-images`           | Exports images to `_assets/`          |           |            |          |
+| `--insert-page-breaks`      | Adds `---` between pages              |           |            |          |
+| `--remove-headers`          | Removes repeating headers/footers     |           |            |          |
+| `--heading-size-ratio 1.15` | Font-size ratio for heading detection |           |            |          |
+| `--orphan-max-len 45`       | Max chars for orphan merging          |           |            |          |
+
+---
+
+## 📂 Example Output
 
 **Input PDF:**
 
@@ -136,74 +199,100 @@ This is a paragraph that wraps across multiple lines in the PDF file.
 
 ## 🎯 Use Cases
 
-* **Academic papers** — Convert research PDFs to editable Markdown.
-* **Books and eBooks** — Extract text for note-taking and annotation.
-* **Documentation** — Archive PDF manuals as searchable Markdown.
-* **Obsidian vaults** — Import PDFs directly into your knowledge base.
-* **Markdown workflows** — Use with any Markdown editor (Typora, VS Code, etc.).
+* Academic papers → editable Markdown.
+* Books and eBooks → annotated notes.
+* Documentation → searchable Markdown archives.
+* Obsidian vaults → import PDFs directly.
+* Markdown workflows → use with VS Code, Typora, etc.
+
+---
+
+## 🧠 Configuration Reference
+
+| Option                   | Description                                | Default |
+| ------------------------ | ------------------------------------------ | ------- |
+| `ocr_mode`               | OCR engine: off, auto, tesseract, ocrmypdf | `off`   |
+| `ocr_dpi`                | OCR render DPI                             | `300`   |
+| `preview_ocr_dpi`        | OCR DPI in preview mode                    | `200`   |
+| `ocr_timeout_sec`        | Timeout for OCRmyPDF                       | `1800`  |
+| `caps_to_headings`       | Promote ALL-CAPS lines                     | `True`  |
+| `defragment_short`       | Merge short fragments                      | `True`  |
+| `heading_size_ratio`     | Font size ratio                            | `1.15`  |
+| `orphan_max_len`         | Max orphan chars                           | `45`    |
+| `remove_headers_footers` | Remove headers/footers                     | `True`  |
+| `insert_page_breaks`     | Add page breaks                            | `False` |
+| `export_images`          | Save images to `_assets/`                  | `False` |
+
+---
+
+## 🧰 Building the EXE
+
+If you wish to build your own standalone version:
+
+```bash
+pip install pyinstaller
+pyinstaller --noconsole --onefile --name PDF_to_MD pdfmd/app_gui.py
+```
+
+The generated EXE will appear in `dist/`.
 
 ---
 
 ## ⚠️ Limitations
 
-* **Scanned PDFs** — Requires text-based PDFs (not scanned images). For OCR, use Adobe Acrobat or another OCR tool first.
-* **Complex tables** — Table formatting may not preserve perfectly.
-* **Multi-column layouts** — May produce out-of-order text.
-* **Embedded fonts** — Some proprietary fonts may not render correctly.
+* Complex tables and multi-column PDFs may not convert perfectly.
+* OCR accuracy depends on scan quality and language data.
+* Embedded math or diagrams are not interpreted.
 
 ---
 
 ## 🔖 Latest Release
 
-**Version:** [v1.0.0](https://github.com/M1ck4/pdf_to_md/releases/tag/v1.0.0)
+**Version:** [v2.0.0](https://github.com/M1ck4/pdf_to_md/releases/tag/v2.0.0)
 **Released:** November 2025
 
 **SHA-256 checksum:**
 `E4FE880E1A00494D31255328A45225118ACF0085BB99C0867C74DF9881B1F085`
 
-Run this command in PowerShell to verify:
+Verify your download:
 
 ```powershell
 Get-FileHash .\PDF_to_MD.exe -Algorithm SHA256
 ```
 
-If the hash matches, your download is authentic and safe to run.
-
-[👉 Download from the official release page](https://github.com/M1ck4/pdf_to_md/releases/latest)
+[👉 Download the latest release](https://github.com/M1ck4/pdf_to_md/releases/latest)
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here are some ways you can help:
+You can help by:
 
-* **Report bugs** — Open an issue with details and sample PDFs (if possible).
-* **Suggest features** — Share your ideas in the Issues tab.
-* **Submit pull requests** — Fork, improve, and PR.
-* **Improve documentation** — Help make this README even better.
+* Reporting issues and sharing sample PDFs.
+* Suggesting OCR or formatting improvements.
+* Submitting pull requests for new features.
 
 ### Development Setup
 
 ```bash
 git clone https://github.com/M1ck4/pdf_to_md.git
 cd pdf_to_md
-pip install pymupdf
-python pdf_to_md.py
+pip install -r requirements.txt
+python -m pdfmd.app_gui
 ```
 
 ---
 
 ## 📝 License
 
-This project is licensed under the MIT License, see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**. See [LICENSE](LICENSE).
 
 ---
 
 ## 🙏 Acknowledgments
 
-* Built with [PyMuPDF](https://pymupdf.readthedocs.io/) for PDF processing.
+* Built with [PyMuPDF](https://pymupdf.readthedocs.io/), [Pillow](https://python-pillow.org/), [Tesseract OCR](https://github.com/tesseract-ocr/tesseract), and [OCRmyPDF](https://github.com/ocrmypdf/OCRmyPDF).
 * Designed for seamless integration with [Obsidian](https://obsidian.md/).
-* Inspired by the need for reliable, elegant PDF → Markdown conversion tools.
 
 ---
 
