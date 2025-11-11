@@ -1,6 +1,6 @@
 # PDF to Markdown Converter (Obsidian-Ready)
 
-*A cross-platform desktop and CLI application for converting PDFs — including scanned documents — into beautifully formatted Markdown optimized for Obsidian and other knowledge tools.*
+*A cross-platform desktop and CLI application for converting PDFs, including scanned documents, into beautifully formatted Markdown optimized for Obsidian and other knowledge tools.*
 
 **Built for simplicity. Enhanced with intelligence.**
 
@@ -23,15 +23,13 @@
 * ✅ Converts both text-based and scanned PDFs to Markdown
 * 🧠 AI-style text reconstruction — smart heading detection & paragraph logic
 * ⚙️ Modular design for maintainability and future expansion
-* 🧩 OCR via Tesseract or OCRmyPDF
+* 🧩 OCR via **Tesseract** (Windows) or **OCRmyPDF** (macOS/Linux)
 * 💡 Configurable from GUI or CLI
 * 🔄 Cross-platform support: Windows, macOS, Linux
 
 ---
 
 ## 🧠 Architecture Overview
-
-This project is built around a modular pipeline:
 
 | Module             | Purpose                                                                         |
 | ------------------ | ------------------------------------------------------------------------------- |
@@ -48,29 +46,24 @@ This project is built around a modular pipeline:
 
 ---
 
-## 🧩 OCR Engine Flow
+## 🧩 OCR Design: Intelligent Dual-Engine System
 
-```
-              ┌────────────────────────┐
-              │        Input PDF       │
-              └────────────┬───────────┘
-                           │
-                    Text-based? ───▶ Yes ───▶ Extract via PyMuPDF
-                           │
-                           ▼
-                          No
-                           │
-                           ▼
-             ┌────────────────────────────┐
-             │ OCR Engine (auto-detect)   │
-             │                            │
-             │ - Tesseract (fast, local)  │
-             │ - OCRmyPDF (full layout)   │
-             └────────────────────────────┘
-                           │
-                           ▼
-                   Clean & Format → Markdown
-```
+This project uses an adaptive OCR engine strategy designed for **maximum reliability across operating systems**.
+
+| Platform       | Default OCR Engine | Description                                                                                 |
+| -------------- | ------------------ | ------------------------------------------------------------------------------------------- |
+| 🦩 **Windows** | **Tesseract**      | Fast, lightweight, and reliable on Windows — perfect for single-page or embedded-text PDFs. |
+| 🍎 **macOS**   | **OCRmyPDF**       | Provides layout-accurate, multi-core OCR — ideal for full-document scans.                   |
+| 🐧 **Linux**   | **OCRmyPDF**       | Native and stable; best choice for batch OCR and automation.                                |
+
+**How it works:**
+
+* When OCR mode is set to `auto`, the program detects your OS and chooses the best engine.
+* Windows defaults to **Tesseract** for reliability.
+* macOS and Linux default to **OCRmyPDF** when available.
+* If OCRmyPDF isn’t installed, it falls back automatically to Tesseract.
+
+This ensures smooth, predictable OCR performance regardless of platform.
 
 ---
 
@@ -82,7 +75,7 @@ This project is built around a modular pipeline:
 pip install pymupdf pillow pytesseract ocrmypdf
 git clone https://github.com/M1ck4/pdf_to_md.git
 cd pdf_to_md
-python -m pdfmd.app_gui
+python app_gui.py
 ```
 
 ### 💻 Windows Executable
@@ -102,7 +95,11 @@ No Python needed.
 | **Tesseract** | Local         | Windows/macOS/Linux | Lightweight, fast, great for single-page or embedded text |
 | **OCRmyPDF**  | System/Python | Linux/macOS/WSL     | Handles full layout and multi-page structure              |
 
-> ⚠️ Windows users: If Tesseract isn’t found, install it from [UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki) and ensure it’s on PATH.
+> ⚠️ **Windows users:**
+> If Tesseract isn’t found, install it from [UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki)
+> and ensure it’s added to PATH.
+> Default path example:
+> `C:\Program Files\Tesseract-OCR\tesseract.exe`
 
 ---
 
@@ -111,16 +108,15 @@ No Python needed.
 ### GUI Mode
 
 ```bash
-python -m pdfmd.app_gui
+python app_gui.py
 ```
 
-or
-launch `PDF_to_MD.exe`
+or launch `PDF_to_MD.exe`
 
 ### CLI Mode
 
 ```bash
-python -m pdfmd.cli input.pdf --ocr auto --export-images
+python cli.py input.pdf --ocr auto --export-images
 ```
 
 | Option                      | Description                                |           |            |                   |
@@ -135,7 +131,7 @@ python -m pdfmd.cli input.pdf --ocr auto --export-images
 
 ---
 
-## 📂 Example Output
+## 🗂️ Example Output
 
 **Input PDF:**
 
@@ -160,7 +156,7 @@ This is a paragraph that wraps across multiple lines in the PDF file.
 
 ---
 
-## 🧭 Performance Tips
+## 🦯 Performance Tips
 
 * For **large PDFs**, use `--preview` first to test formatting.
 * On slower systems, lower OCR DPI:
@@ -172,28 +168,27 @@ This is a paragraph that wraps across multiple lines in the PDF file.
 
 ---
 
-## 🧰 Building the EXE
+## 🤰🏻 Building the EXE
 
 ```bash
 pip install pyinstaller
-pyinstaller --noconsole --onefile --name PDF_to_MD --paths . --collect-all pymupdf --collect-all PIL pdfmd/app_gui.py
+pyinstaller --noconsole --onefile --name PDF_to_MD --paths . --collect-all pymupdf --collect-all PIL app_gui.py
 ```
 
 Output: `dist/PDF_to_MD.exe`
 
 ---
 
-## 🧠 Troubleshooting
+## 🤓 Troubleshooting
 
 | Issue                         | Cause                        | Fix                                                |
 | ----------------------------- | ---------------------------- | -------------------------------------------------- |
 | **OCR not working**           | Tesseract not in PATH        | Install and add to PATH, or specify in `Options()` |
-| **CLI “ModuleNotFoundError”** | Running from wrong directory | Run from parent folder (`python -m pdfmd.cli`)     |
+| **CLI “ModuleNotFoundError”** | Running from wrong directory | Run from parent folder (`python cli.py`)           |
 | **Weird characters**          | Font encoding issues         | Try OCRmyPDF mode                                  |
 | **Crashes mid-way**           | Memory limits on large PDFs  | Use `--preview` or lower DPI                       |
 
 ---
-
 
 ## 🤝 Contributing
 
@@ -209,12 +204,12 @@ You can help by:
 git clone https://github.com/M1ck4/pdf_to_md.git
 cd pdf_to_md
 pip install -r requirements.txt
-python -m pdfmd.app_gui
+python app_gui.py
 ```
 
 ---
 
-## 🧾 License
+## 📾 License
 
 Licensed under the MIT License.
 See [LICENSE](LICENSE).
