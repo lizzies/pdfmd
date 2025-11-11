@@ -1,6 +1,6 @@
 # PDF to Markdown Converter (Obsidian-Ready)
 
-*A cross-platform desktop and CLI application for converting PDFs, including scanned documents, into beautifully formatted Markdown optimized for Obsidian and other knowledge tools.*
+*A cross-platform **offline** desktop and CLI application for converting PDFs, including scanned documents, into beautifully formatted Markdown optimized for Obsidian and other knowledge tools.*
 
 **Built for simplicity. Enhanced with intelligence.**
 
@@ -9,6 +9,16 @@
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 ![Version](https://img.shields.io/badge/version-v1.1.0-blue)
 [![Download EXE](https://img.shields.io/badge/Download-Windows%20EXE-brightgreen)](https://github.com/M1ck4/pdf_to_md/releases/latest/download/PDF_to_MD.exe)
+
+---
+
+## 🕵️ Privacy & Security
+
+**PDF to Markdown Converter is 100% offline.**
+No internet connection is ever required, and **no data is uploaded or tracked**.
+All processing happens **locally on your computer**, meaning your PDFs, research papers, and notes never leave your device.
+
+> This ensures full privacy and peace of mind for academics, professionals, and anyone handling sensitive material.
 
 ---
 
@@ -25,7 +35,8 @@
 * ⚙️ Modular design for maintainability and future expansion
 * 🧩 OCR via **Tesseract** (Windows) or **OCRmyPDF** (macOS/Linux)
 * 💡 Configurable from GUI or CLI
-* 🔄 Cross-platform support: Windows, macOS, Linux
+* 🔄 Cross-platform and **completely offline**
+* 🔐 No tracking, no telemetry, no uploads
 
 ---
 
@@ -228,4 +239,4 @@ See [LICENSE](LICENSE).
 
 ## ❤️ Made for creators, researchers, and readers.
 
-**Free. Open. Useful. Forever.**
+**Free. Open. Useful. Private. Forever.**
