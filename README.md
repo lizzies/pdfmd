@@ -31,7 +31,7 @@ All processing happens **locally on your computer**, meaning your PDFs, research
 ## ✨ Highlights
 
 * ✅ Converts both text-based and scanned PDFs to Markdown
-* 🧠 AI-style text reconstruction — smart heading detection & paragraph logic
+* 🧠 AI-style text reconstruction - smart heading detection & paragraph logic (now with inline hyphen unwrap + callouts during rendering)
 * ⚙️ Modular design for maintainability and future expansion
 * 🧩 OCR via **Tesseract** (Windows) or **OCRmyPDF** (macOS/Linux)
 * 💡 Configurable from GUI or CLI
@@ -139,6 +139,8 @@ python cli.py input.pdf --ocr auto --export-images
 | `--remove-headers`          | Remove repeating headers/footers           |           |            |                   |
 | `--heading-size-ratio 1.15` | Font-size multiplier for heading detection |           |            |                   |
 | `--orphan-max-len 45`       | Maximum characters for orphan merging      |           |            |                   |
+| `--aggressive-hyphen`       | Merge TitleCase hyphenation aggressively   |           |            |                   |
+| `--no-protect-code-blocks`  | Allow unwrap/reflow inside fenced code     |           |            |                   |
 
 ---
 
@@ -216,6 +218,8 @@ git clone https://github.com/M1ck4/pdf_to_md.git
 cd pdf_to_md
 pip install -r requirements.txt
 python app_gui.py
+pip install -r requirements.txt
+python pdf_to_md.py
 ```
 
 ---
@@ -226,6 +230,8 @@ Licensed under the MIT License.
 See [LICENSE](LICENSE).
 
 ---
+## License
+Released under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## 🙏 Acknowledgments
 
@@ -240,3 +246,6 @@ See [LICENSE](LICENSE).
 ## ❤️ Made for creators, researchers, and readers.
 
 **Free. Open. Useful. Private. Forever.**
+## Acknowledgements
+- Built on top of [PyMuPDF](https://pymupdf.readthedocs.io/).
+- Designed for seamless import into [Obsidian](https://obsidian.md/) vaults and other Markdown-first workflows.
