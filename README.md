@@ -7,7 +7,7 @@ A refined, privacy‑first desktop and CLI tool that converts PDFs, including sc
 ![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
-![Version](https://img.shields.io/badge/version-v1.3.0-purple)
+![Version](https://img.shields.io/badge/version-v1.2.0-purple)
 
 ---
 
