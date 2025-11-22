@@ -361,14 +361,6 @@ Download the latest `.exe` from [Releases](https://github.com/M1ck4/pdf_to_md/re
 
 ### GUI Application
 
-```bash
-# If installed as package:
-python -m pdfmd.app_gui
-
-# Or directly:
-python app_gui.py
-```
-
 #### Quick Workflow
 
 1. **Select Input PDF** — Browse
@@ -386,50 +378,117 @@ python app_gui.py
 
 ---
 
-## 📟 Command-Line Interface
+# 📟 Command-Line Interface
 
-### Basic Usage
+## Installation & Running
+
+The CLI can be invoked in several ways depending on your installation:
 
 ```bash
-# If installed as package:
+# If installed as a package (recommended):
 pdfmd input.pdf
 
-# Or using Python module:
+# Using Python module syntax:
 python -m pdfmd.cli input.pdf
 
-# Or directly (from package directory):
+# Direct execution (from package directory):
 python cli.py input.pdf
 ```
 
-### Common Commands
+---
+
+## Quick Start
 
 ```bash
-# Convert with default settings
-pdfmd input.pdf
+# Basic conversion (writes input.md next to the PDF)
+pdfmd report.pdf
 
-# Specify output path
-pdfmd input.pdf -o output.md
+# Specify output file
+pdfmd report.pdf -o notes.md
 
-# Enable auto-OCR detection
-pdfmd input.pdf --ocr auto
+# Auto-detect scanned pages and OCR as needed
+pdfmd scan.pdf --ocr auto
 
-# Force Tesseract OCR + export images
-pdfmd scan.pdf --ocr tesseract --export-images
-
-# Preview first 3 pages only
-pdfmd large.pdf --preview-only
-
-# Show statistics after conversion
-pdfmd document.pdf --stats
-
-# Quiet mode (errors only)
-pdfmd document.pdf --quiet
-
-# Verbose output
-pdfmd document.pdf -v
+# Batch convert multiple PDFs
+pdfmd *.pdf --ocr auto -o converted_md/
 ```
 
-### Full Options Reference
+---
+
+## Common Workflows
+
+### 📄 Standard Documents
+```bash
+# Clean, text-based PDFs (articles, reports, books)
+pdfmd document.pdf
+
+# With statistics summary
+pdfmd document.pdf --stats
+```
+
+### 🔍 Scanned Documents
+```bash
+# Auto-detect and OCR scanned pages only
+pdfmd scan.pdf --ocr auto
+
+# Force Tesseract OCR on all pages
+pdfmd scan.pdf --ocr tesseract
+
+# Use OCRmyPDF for high-quality layout preservation
+pdfmd scan.pdf --ocr ocrmypdf
+```
+
+### 🖼️ Documents with Images
+```bash
+# Extract images to _assets/ folder with references
+pdfmd presentation.pdf --export-images
+
+# OCR + images for scanned slides
+pdfmd slides.pdf --ocr auto --export-images
+```
+
+### 📋 Quick Preview
+```bash
+# Process only first 3 pages (fast inspection)
+pdfmd long_paper.pdf --preview-only
+
+# Preview with stats
+pdfmd long_paper.pdf --preview-only --stats
+```
+
+### 🔒 Password-Protected PDFs
+```bash
+# Interactive password prompt (secure, no command-line exposure)
+pdfmd encrypted.pdf
+
+# The CLI will detect encryption and prompt for password
+# Password is never logged or shown in process listings
+```
+
+### 🔇 Scripting & Automation
+```bash
+# Quiet mode (errors only, good for scripts)
+pdfmd batch/*.pdf --ocr auto --quiet --no-progress
+
+# Non-interactive mode (fails if password needed)
+pdfmd document.pdf --no-progress -q
+```
+
+### 🔬 Debug & Verbose Output
+```bash
+# Basic verbose output
+pdfmd document.pdf -v
+
+# Debug-level detail (includes pipeline stages)
+pdfmd document.pdf -vv
+
+# Without colored output (for logs)
+pdfmd document.pdf -v --no-color
+```
+
+---
+
+## Full Options Reference
 
 ```
 usage: pdfmd [-h] [-o OUTPUT] [--ocr {off,auto,tesseract,ocrmypdf}]
@@ -437,23 +496,256 @@ usage: pdfmd [-h] [-o OUTPUT] [--ocr {off,auto,tesseract,ocrmypdf}]
              [--no-progress] [-q] [-v] [--stats] [--no-color] [--version]
              INPUT_PDF [INPUT_PDF ...]
 
+Convert PDF files to clean, Obsidian-ready Markdown with table and
+math-aware conversion. Runs fully offline: no uploads, no telemetry,
+no cloud dependencies.
+
 positional arguments:
-  INPUT_PDF             Path(s) to input PDF file(s)
+  INPUT_PDF             Path(s) to input PDF file(s). Multiple files supported.
 
 options:
   -h, --help            Show this help message and exit
-  -o, --output OUTPUT   Output path (file for single PDF, directory for multiple)
+  
+  -o OUTPUT, --output OUTPUT
+                        Output path. For single input: .md file path.
+                        For multiple inputs: directory (created if needed).
+                        Default: writes input.md next to each PDF.
+  
   --ocr {off,auto,tesseract,ocrmypdf}
-                        OCR mode (default: off)
-  --export-images       Export images to _assets/ folder
-  --page-breaks         Insert '---' page break markers
-  --preview-only        Only process first few pages
-  --no-progress         Disable progress bar
-  -q, --quiet           Suppress non-error messages
-  -v, --verbose         Increase verbosity (-v or -vv)
-  --stats               Print statistics after conversion
-  --no-color            Disable colored output
-  --version             Print version and exit
+                        OCR mode (default: off):
+                          off       — use native text extraction only
+                          auto      — detect scanned pages, OCR as needed
+                          tesseract — force page-by-page Tesseract OCR
+                          ocrmypdf  — pre-process with OCRmyPDF for high-fidelity layout
+  
+  --export-images       Export images to _assets/ folder next to output file,
+                        with Markdown image references appended to document.
+  
+  --page-breaks         Insert '---' horizontal rule between pages in output.
+  
+  --preview-only        Only process first 3 pages (useful for quick inspection
+                        of large documents or testing settings).
+  
+  --no-progress         Disable terminal progress bar (useful for logging).
+  
+  -q, --quiet           Suppress non-error messages. Only show errors.
+  
+  -v, --verbose         Increase verbosity:
+                          -v   — show conversion stages and logs
+                          -vv  — debug-level detail with full pipeline info
+  
+  --stats               Print document statistics after conversion:
+                        word count, headings, tables, lists.
+  
+  --no-color            Disable colored terminal output (for log files).
+  
+  --version             Print version and exit.
+```
+
+---
+
+## Advanced Examples
+
+### Batch Processing
+```bash
+# Convert all PDFs in current directory
+pdfmd *.pdf --ocr auto -o markdown_output/
+
+# Convert with consistent settings
+for pdf in papers/*.pdf; do
+  pdfmd "$pdf" --ocr auto --stats
+done
+```
+
+### Tables and Math
+```bash
+# The CLI automatically detects and converts:
+# • Text tables → GitHub-flavored Markdown tables
+# • Unicode math (E = mc², x₁₀², α + β³) → LaTeX-style equations
+# • Existing LaTeX math is preserved
+
+pdfmd academic_paper.pdf --stats
+```
+
+### Integration with Other Tools
+```bash
+# Pipeline with other markdown tools
+pdfmd input.pdf -o - | pandoc -f markdown -o output.docx
+
+# Generate and preview
+pdfmd paper.pdf && code paper.md
+
+# Conversion + commit
+pdfmd updated.pdf && git add updated.md && git commit -m "Update notes"
+```
+
+---
+
+## Output Behavior
+
+### Single PDF
+```bash
+pdfmd input.pdf
+# Creates: input.md (same directory as input.pdf)
+
+pdfmd input.pdf -o notes.md
+# Creates: notes.md (current directory)
+
+pdfmd input.pdf -o ~/Documents/notes.md
+# Creates: ~/Documents/notes.md
+```
+
+### Multiple PDFs
+```bash
+pdfmd file1.pdf file2.pdf file3.pdf
+# Creates: file1.md, file2.md, file3.md (next to originals)
+
+pdfmd *.pdf -o converted/
+# Creates: converted/file1.md, converted/file2.md, ...
+# Directory is created if it doesn't exist
+```
+
+### Image Export
+```bash
+pdfmd slides.pdf --export-images
+# Creates:
+#   slides.md
+#   slides_assets/
+#     ├── img_001_01.png
+#     ├── img_001_02.png
+#     └── ...
+# Images referenced at end of slides.md
+```
+
+---
+
+## Error Handling
+
+### Missing Dependencies
+```bash
+# If OCR is requested but Tesseract isn't installed:
+$ pdfmd scan.pdf --ocr tesseract
+
+Error: OCR mode 'tesseract' selected but Tesseract binary is not available.
+Install Tesseract from: https://github.com/UB-Mannheim/tesseract/wiki
+Then run: pip install pytesseract pillow
+```
+
+### Password-Protected Files
+```bash
+# Interactive prompt (secure):
+$ pdfmd encrypted.pdf
+PDF is password protected. Enter password (input will be hidden): 
+[password entry is hidden]
+Converting encrypted.pdf → encrypted.md
+```
+
+### Invalid Files
+```bash
+# Non-existent file:
+$ pdfmd missing.pdf
+Error: input file not found: missing.pdf
+
+# Not a PDF:
+$ pdfmd document.txt
+Error: The input file must have a .pdf extension.
+```
+
+---
+
+## Security Notes
+
+### Password Handling
+- **Interactive prompts only** — passwords never passed via command-line arguments
+- **No process exposure** — passwords not visible in `ps` or process listings  
+- **Memory-only** — passwords never logged, cached, or persisted to disk
+- **No network** — all processing is local, passwords never transmitted
+
+### Privacy
+- **100% offline** — no uploads, no telemetry, no external API calls
+- **No cloud dependencies** — all OCR and processing happens on your machine
+- **Output is unencrypted** — protect `.md` files according to your environment's security requirements
+
+---
+
+## Performance Tips
+
+### Large Documents
+```bash
+# Preview first to check settings (fast)
+pdfmd large_book.pdf --preview-only --stats
+
+# Then convert full document
+pdfmd large_book.pdf --ocr auto
+
+# Disable progress bar for slight speed improvement
+pdfmd large_book.pdf --no-progress
+```
+
+### OCR Performance
+```bash
+# Fastest: only OCR scanned pages
+pdfmd mixed.pdf --ocr auto
+
+# Medium: page-by-page Tesseract (more accurate for scans)
+pdfmd scan.pdf --ocr tesseract
+
+# Slowest but best quality: OCRmyPDF preprocessing
+pdfmd scan.pdf --ocr ocrmypdf
+```
+
+### Batch Optimization
+```bash
+# Process in parallel (Unix/Linux/macOS):
+ls *.pdf | xargs -n 1 -P 4 pdfmd --ocr auto --quiet
+
+# Windows PowerShell parallel:
+Get-ChildItem *.pdf | ForEach-Object -Parallel {
+  pdfmd $_.FullName --ocr auto --quiet
+} -ThrottleLimit 4
+```
+
+---
+
+## Exit Codes
+
+- `0` — Success (all files converted)
+- `1` — Error (one or more files failed)
+
+```bash
+# Use in scripts:
+if pdfmd document.pdf --quiet; then
+  echo "Conversion successful"
+else
+  echo "Conversion failed"
+  exit 1
+fi
+```
+
+---
+
+## Configuration Files
+
+The CLI uses the same global configuration as the GUI (stored at `~/.pdfmd_gui.json`), but command-line options always take precedence.
+
+To reset to defaults:
+```bash
+rm ~/.pdfmd_gui.json
+```
+
+---
+
+## Getting Help
+
+```bash
+# Show help
+pdfmd --help
+
+# Show version
+pdfmd --version
+
+# Report issues
+# Visit: https://github.com/yourusername/pdfmd/issues
 ```
 
 ### OCR Modes Explained
