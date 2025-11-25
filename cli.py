@@ -120,7 +120,7 @@ Security notes:
     parser.add_argument(
         "inputs",
         metavar="INPUT_PDF",
-        nargs="+",
+        nargs="*",  # CHANGED: '*' allows zero inputs (was '+')
         help="Path(s) to input PDF file(s). You can pass multiple PDFs.",
     )
 
@@ -140,10 +140,10 @@ Security notes:
         default="off",
         help=(
             "OCR mode (default: off):\n"
-            "  off        – use native text only\n"
-            "  auto       – detect scanned pages and OCR as needed\n"
-            "  tesseract  – force page-by-page Tesseract OCR\n"
-            "  ocrmypdf   – use OCRmyPDF for high-fidelity layout"
+            "  off        — use native text only\n"
+            "  auto       — detect scanned pages and OCR as needed\n"
+            "  tesseract  — force page-by-page Tesseract OCR\n"
+            "  ocrmypdf   — use OCRmyPDF for high-fidelity layout"
         ),
     )
 
@@ -246,7 +246,7 @@ def _make_progress_cb(
         if args.no_progress or args.quiet:
             return
 
-        # In the pipeline, progress_cb is called with (pct, 100) where pct is 0–100.
+        # In the pipeline, progress_cb is called with (pct, 100) where pct is 0—100.
         if total == 100 and 0 <= done <= 100:
             pct = int(done)
         else:
@@ -484,15 +484,20 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
 
-    # Version info
+    # Version info - CHECK THIS FIRST before requiring inputs
     try:
         from . import __version__ as _VERSION
     except Exception:
         _VERSION = "unknown"
 
     if args.version:
-        print(f"pdfmd { _VERSION }")
+        print(f"pdfmd {_VERSION}")
         return 0
+
+    # NOW check if inputs were provided
+    if not args.inputs:
+        parser.print_help()
+        return 1
 
     # Colour configuration
     enable_color = sys.stderr.isatty() and not args.no_color
