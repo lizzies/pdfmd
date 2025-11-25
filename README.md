@@ -348,15 +348,18 @@ pdfmd input.pdf
 #### Windows
 
 1. **Install Tesseract OCR:**
-   - Download: https://github.com/UB-Mannheim/tesseract/wiki
-   - Run installer and check "Add to PATH"
-   
+
+   * Download: [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
+   * Run installer and check "Add to PATH"
+
 2. **Install Python packages:**
+
    ```cmd
    pip install pymupdf pillow pytesseract
    ```
 
 3. **Verify Tesseract:**
+
    ```cmd
    tesseract --version
    ```
