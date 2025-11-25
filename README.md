@@ -324,11 +324,10 @@ This architecture forms a scalable base for long-term evolution of **pdfmd**.
 git clone https://github.com/M1ck4/pdfmd.git
 cd pdfmd
 
-# Install dependencies
+# Install dependencies manually
 pip install pymupdf pillow pytesseract ocrmypdf
 
-# Launch GUI
-python -m pdfmd.app_gui
+# Launch GUI\python -m pdfmd.app_gui
 ```
 
 ### Install as Package (Recommended)
@@ -337,9 +336,14 @@ python -m pdfmd.app_gui
 # Clone and install
 git clone https://github.com/M1ck4/pdfmd.git
 cd pdfmd
+
+# Minimal install (native text extraction only)
 pip install -e .
 
-# Now you can use the 'pdfmd' command from anywhere
+# OR: Full install with OCR support (recommended)
+pip install -e .[full]
+
+# Use the CLI
 pdfmd input.pdf
 ```
 
@@ -352,13 +356,13 @@ pdfmd input.pdf
    * Download: [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
    * Run installer and check "Add to PATH"
 
-2. **Install Python packages:**
+2. **Install Python packages (if running without the package installer):**
 
    ```cmd
-   pip install pymupdf pillow pytesseract
+   pip install pymupdf pillow pytesseract ocrmypdf
    ```
 
-3. **Verify Tesseract:**
+3. **Verify installation:**
 
    ```cmd
    tesseract --version
@@ -373,20 +377,27 @@ brew install tesseract
 # Install OCRmyPDF (recommended)
 brew install ocrmypdf
 
-# Install Python packages
+# Install Python dependencies manually
 pip install pymupdf pillow pytesseract ocrmypdf
 ```
 
 #### Linux (Ubuntu/Debian)
 
 ```bash
-# Install system dependencies
+# System dependencies
 sudo apt-get update
 sudo apt-get install tesseract-ocr ocrmypdf
 
-# Install Python packages
+# Python dependencies
 pip install pymupdf pillow pytesseract ocrmypdf
 ```
+
+### Windows Standalone Executable
+
+Download the latest `.exe` from [Releases](https://github.com/M1ck4/pdfmd/releases) — no Python required.
+
+**Note:** Tesseract must still be installed separately for OCR functionality.
+
 
 ### Windows Standalone Executable
 
